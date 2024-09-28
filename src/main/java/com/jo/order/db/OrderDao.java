@@ -16,7 +16,7 @@ public class OrderDao  {
 	private static Logger logger = LoggerFactory.getLogger(OrderDao.class);
 	
 	public void save(OrderDto orderDto) {
-		logger.info("Order data has been saved in DB.");
+		logger.info("Order data has been saved in DB {}", orderDto.getOrderId());
 		list.add(orderDto);
 	}
 	

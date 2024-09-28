@@ -1,32 +1,44 @@
 package com.jo.order.handler;
 
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.jo.order.dto.OrderCreatedEvent;
-import com.jo.order.dto.OrderDto;
 import com.jo.order.dto.PaymentFailedEvent;
-import com.jo.order.util.OrderServiceUtil;
+import com.jo.order.service.OrderService;
+
+import jakarta.annotation.PostConstruct;
 
 @Component
-public class PaymentFailedEventHandler {
+public class PaymentFailedEventHandler implements EventHandler{
+	
+	private static Logger logger = LoggerFactory.getLogger(PaymentFailedEventHandler.class);
 	
 	@Autowired
 	private BlockingQueue<PaymentFailedEvent> paymentFailedEventQueue;
 	
 	@Autowired
-	private OrderServiceUtil orderServiceUtil;
+	private OrderService orderService;
 	
-	//Event listener, incase of exception in payment service This service will be invoked
-	public void consumeFailurePayment() {
+	public void handle() throws InterruptedException {
+		logger.info("Configured PaymentFailedEventHandler");
 		while(true) {
-			//Thread.sleep(1000);
-			//PaymentFailedEvent paymentFailedEvent = paymentFailedEventQueue.take();
-			//Rollback the changes for order
-			//orderServiceUtil.failOrder(paymentFailedEvent);
+			PaymentFailedEvent paymentFailedEvent = paymentFailedEventQueue.take();
+			orderService.failOrder(paymentFailedEvent);
 		}
+	}
+	
+	@PostConstruct
+	private void init() {
+		new Thread(()->{
+			try {
+				this.handle();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();;
 	}
 }

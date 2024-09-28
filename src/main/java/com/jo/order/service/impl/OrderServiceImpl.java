@@ -1,5 +1,10 @@
 package com.jo.order.service.impl;
 
+import java.lang.classfile.ClassFile.Option;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,8 @@ import com.jo.order.util.OrderServiceUtil;
 @Service
 public class OrderServiceImpl implements OrderService {
 	
+	private static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	
 	@Autowired
 	private OrderCreatedEventHandler orderEventHandler;
 	
@@ -26,9 +33,14 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public void processOrder(OrderDto orderDto) {
-		orderDto =  orderServiceUtil.processOrder(orderDto);
-		OrderCreatedEvent createdEvent = orderServiceMapper.map(orderDto);
-		orderEventHandler.orderCreatedEvent(createdEvent);
+		logger.info("Processing order {}", orderDto.getOrderId());
+		if(Optional.ofNullable(orderDto.getOrderId()).isPresent()) {
+			orderDto =  orderServiceUtil.processOrder(orderDto);
+			OrderCreatedEvent createdEvent = orderServiceMapper.map(orderDto);
+			orderEventHandler.handle(createdEvent);
+		}else {
+			logger.info("Order service is failed due to ", orderDto.getOrderId());
+		}
 	}
 	
 	

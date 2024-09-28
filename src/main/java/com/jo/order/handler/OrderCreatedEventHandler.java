@@ -10,26 +10,16 @@ import org.springframework.stereotype.Component;
 import com.jo.order.dto.OrderCreatedEvent;
 
 @Component
-public class OrderCreatedEventHandler {
+public class OrderCreatedEventHandler implements EventHandler{
 	
 	private static Logger logger = LoggerFactory.getLogger(OrderCreatedEventHandler.class);
 	
 	@Autowired
 	private BlockingQueue<OrderCreatedEvent> orderCreatedEventQueue;
 	
-	public void orderCreatedEvent(OrderCreatedEvent orderCreatedEvent) {
+	public void handle(OrderCreatedEvent orderCreatedEvent) {
+		logger.info("Order is created {}", orderCreatedEvent.getOrderId());
 		orderCreatedEventQueue.add(orderCreatedEvent);
-		logger.info("Order created event has been sent to Payment service.");
-	}
-	
-	
-	//Event listener, incase of exception in payment service This service will be invoked
-	public void consumeFailurePayment() {
-		while(true) {
-			//Thread.sleep(1000);
-			//PaymentFailedEvent paymentFailedEvent = paymentFailedEventQueue.take();
-			//Rollback the changes for order
-			//orderService.failOrder(paymentFailedEvent);
-		}
+		logger.info("Order is created and payment service {}", orderCreatedEvent.getOrderId());
 	}
 }
