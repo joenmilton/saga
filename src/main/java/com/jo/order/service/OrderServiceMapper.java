@@ -12,7 +12,7 @@ public class OrderServiceMapper {
 	
 	public OrderCreatedEvent map(OrderDto orderDto) {
 		OrderCreatedEvent createdEvent = new OrderCreatedEvent();
-		createdEvent.setOrderId(orderDto.getOrderId());
+		createdEvent.setOrderDto(orderDto);
 		createdEvent.setStatus(EventProcessEnum.ORDER_CREATED);
 		return createdEvent;
 	}
@@ -20,7 +20,7 @@ public class OrderServiceMapper {
 	
 	public OrderDto map(PaymentFailedEvent paymentFailedEvent) {
 		OrderDto orderDto = new OrderDto();
-		orderDto.setOrderId(paymentFailedEvent.getOrderId());
+		orderDto.setOrderId(paymentFailedEvent.getOrderDto().getOrderId());
 		return orderDto;
 	}
 }
