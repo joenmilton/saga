@@ -11,8 +11,8 @@ List the main technologies and frameworks used in the project.
 
 ## **Test cases ran though postman**
 1) Order Service Failure(if order id is null, then the order transaction will be failed)
-url -> localhost:8080/order
-payload > {}
+- url -> localhost:8080/order
+- payload > {}
 
 
 2) Payment Service Success(if order id is 1, then the order transaction will be failed)
