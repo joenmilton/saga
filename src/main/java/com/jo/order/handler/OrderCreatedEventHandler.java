@@ -18,8 +18,8 @@ public class OrderCreatedEventHandler implements EventHandler{
 	private BlockingQueue<OrderCreatedEvent> orderCreatedEventQueue;
 	
 	public void handle(OrderCreatedEvent orderCreatedEvent) {
-		logger.info("Order is created {}", orderCreatedEvent.getOrderId());
+		logger.info("Order is created {}", orderCreatedEvent.getOrderDto().getOrderId());
 		orderCreatedEventQueue.add(orderCreatedEvent);
-		logger.info("Order is created and payment service {}", orderCreatedEvent.getOrderId());
+		logger.info("Order is created and payment service {}", orderCreatedEvent.getOrderDto().getOrderId());
 	}
 }

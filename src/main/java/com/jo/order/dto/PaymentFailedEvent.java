@@ -3,16 +3,16 @@ package com.jo.order.dto;
 import com.jo.order.util.EventProcessEnum;
 
 public class PaymentFailedEvent {
-	private Integer orderId;
+	private OrderDto orderDto;
 
 	private EventProcessEnum status;
-
-	public Integer getOrderId() {
-		return orderId;
+	
+	public OrderDto getOrderDto() {
+		return orderDto;
 	}
 
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
+	public void setOrderDto(OrderDto orderDto) {
+		this.orderDto = orderDto;
 	}
 
 	public EventProcessEnum getStatus() {

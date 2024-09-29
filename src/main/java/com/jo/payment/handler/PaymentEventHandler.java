@@ -27,7 +27,7 @@ public class PaymentEventHandler {
 		logger.info("PaymentEventHandler is configured.");
 		while(true) {
 			OrderCreatedEvent orderCreatedEvent = orderCreatedEventQueue.take();
-			logger.info("Payment Service received the event {}", orderCreatedEvent.getOrderId());
+			logger.info("Payment Service received the event {}", orderCreatedEvent.getOrderDto().getOrderId());
 			paymentService.processPayment(orderCreatedEvent);
 		}
 	}

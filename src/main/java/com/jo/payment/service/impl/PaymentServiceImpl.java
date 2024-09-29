@@ -32,7 +32,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void processPayment(OrderCreatedEvent orderCreatedEvent) {
 		PaymentDto paymentDto =  paymentServiceMapper.map(orderCreatedEvent);
-		logger.info("Payment Service is invoked {}", orderCreatedEvent.getOrderId());
+		logger.info("Payment Service is invoked {}", orderCreatedEvent.getOrderDto().getOrderId());
 		try {
 			paymentServiceUtil.processPayment(paymentDto);
 		}catch (Exception e) {

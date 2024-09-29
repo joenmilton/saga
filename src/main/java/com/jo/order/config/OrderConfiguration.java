@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import com.jo.order.dto.OrderCreatedEvent;
 import com.jo.order.dto.PaymentFailedEvent;
 
+/**
+ * 
+ */
 @Configuration
 public class OrderConfiguration {
 	
